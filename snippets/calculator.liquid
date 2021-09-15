@@ -1,0 +1,140 @@
+<div class="cart__shipping">
+                  <div class="cart__field-group">
+                    <div class="cart__step-number">Step 1:</div>
+                    <label class="cart__step-label">Enter your delivery postcode to start check out:</label>
+                    <input type="text" id="deliveryPostcode" name="attributes[postcode]" required="" placeholder="Enter postcode..." autocomplete="nope">
+                    <div class="cart__field-specialDelivery">
+                      <div class="errors" style="display: none;"></div>
+                      <div class="cart__shipping-notification" style="display: none;"></div>
+                      <div class="cart__shipping-specialdelivery" style="">
+                        <label for="standardDelivery">
+                          <input type="radio" class="specialDelivery" id="standardDelivery" name="delivery" value="standard">
+                          <div class="cart__shipping--option">
+                            <span class="cart__radio-label">Standard Delivery Free Local Post </span><br>
+                            <!-- <small class="subst-pref__secondary-info">+£10 for orders under £25<br>Delivered between 9am &amp; 6pm</small> -->
+                          </div>
+                        </label>
+                       
+                        <label for="samedayDelivery">
+                          <input type="radio" class="specialDelivery" id="saturdayDelivery" name="delivery" value="40254102962385">
+                          <div class="cart__shipping--option">
+                            <span class="cart__radio-label">Saturday delivery +£10</span>
+                          </div>
+                        </label>
+          
+                        
+
+                        <label for="morningDelivery">
+                          <input type="radio" class="specialDelivery" id="morningDelivery" name="delivery" value="40254118953169">
+                          <div class="cart__shipping--option">
+                            <span class="cart__radio-label">Mon - Fri only, delivery +£5.99</span><br>
+                           <!-- <small class="subst-pref__secondary-info">Mon - Fri only, delivery before midday</small>-->
+                          </div>
+                        </label>
+                    </div>
+                    </div>
+                  </div>
+
+                  <div class="datepicker cart__field-group" style="">
+                      <div class="cart__step-number">Step 2:</div>
+                      <label class="cart__step-label">Select a Delivery Date:</label>
+                      <input type="text" class="datepicker__input" name="attributes[deliveryDate]" required readonly id="datepicker__input">
+
+               
+                  
+                </div>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+  
+  <script>
+    
+     var dateInput= $("#datepicker__input").val();
+      
+      var dataInput = { deliveryDate: dateInput };
+    var getshipping = $('input[name="specialDelivery"]:checked').val();
+      
+      if(getshipping == 'standard'){
+      
+      }
+      else if(getshipping == '40254118953169'){
+      var s =  {
+   40254118953169: 1
+    }
+        
+      }
+      
+    else if(getshipping == '40254102962385'){
+      var s =  {
+   40254102962385: 1
+    }
+        
+      }
+    
+    
+    
+      var picker = new Pikaday({ field: document.getElementById('datepicker__input'),
+                               format: 'D MMM YYYY',
+                               onSelect: function(date) {
+                             
+      var getdate = moment(date).format('D MMMM YYYY');
+                                 
+                var getdate = {
+                                 'deliveryDate': getdate
+                                }                 
+                                    
+
+      $.ajax({
+        type: "POST",
+        data: {
+                  updates: s,
+          'attributes':getdate
+        },
+        url: "/cart/update.js",
+        dataType: "json",
+        success: function e(t) {
+          console.log(t);
+        }
+      })
+                                 
+        }
+                               });
+
+   
+
+      
+var i = $('form[action="/cart"]'); 
+    
+    
+    
+  $('.specialDelivery').click(function(){   
+
+      $.ajax({
+        type: "POST",
+        data: {
+          updates: s
+               
+        },
+        url: "/cart/update.js",
+        dataType: "json",
+        success: function e(t) {
+          console.log(t);
+        }
+      })
+    
+    });
+    
+    
+  
+
+  </script>
+  
+  <style>
+    
+    .cart__shipping input{
+    -webkit-appearance: auto; 
+    -moz-appearance: auto;
+      border:1px solid;
+    }
+  </style>
